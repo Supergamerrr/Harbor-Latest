@@ -14,10 +14,6 @@ ALPINE_FULL_VERSION="3.20.1"
 APK_TOOLS_VERSION="2.14.4-r2" # Make sure to update this too when updating Alpine Linux.
 PROOT_VERSION="5.4.0" # Some releases do not have static builds attached.
 
-clear && printf "Version: 0.5"
-printf "Alpine version: $ALPINE_VERSION"
-printf "Alpine version: $PROOT_VERSION"
-sleep 2
 
 # Detect the machine architecture.
 ARCH=$(uname -m)
@@ -51,7 +47,7 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     # Download the packages from their sources.
     curl -Lo /tmp/apk-tools-static.apk "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/main/${ARCH}/apk-tools-static-${APK_TOOLS_VERSION}.apk"
     curl -Lo /tmp/gotty.tar.gz "https://github.com/sorenisanerd/gotty/releases/download/v1.5.0/gotty_v1.5.0_linux_${ARCH_ALT}.tar.gz"
-    curl -Lo $ROOTFS_DIR/usr/local/bin/proot "https://github.com/proot-me/proot/releases/download/latest/proot-v${PROOT_VERSION}-${ARCH}-static"
+    curl -Lo $ROOTFS_DIR/usr/local/bin/proot "https://github.com/proot-me/proot/releases/download/v${PROOT_VERSION}/proot-v${PROOT_VERSION}-${ARCH}-static"
     # Extract everything that needs to be extracted.
     tar -xzf /tmp/apk-tools-static.apk -C /tmp/
     tar -xzf /tmp/gotty.tar.gz -C $ROOTFS_DIR/usr/local/bin
@@ -70,6 +66,11 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     # Create .installed to later check whether Alpine is installed.
     touch $ROOTFS_DIR/.installed
 fi
+clear && printf "Version: 0.6"
+printf "Alpine version: $ALPINE_VERSION"
+printf "Alpine version: $PROOT_VERSION"
+sleep 2
+
 clear && cat << EOF
 
 [08:38:26 INFO]: Done (39.970s)! For help, type "help"
