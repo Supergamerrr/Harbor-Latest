@@ -8,13 +8,15 @@
 # We can only write in /home/container and /tmp in the container.
 ROOTFS_DIR=/home/container
 
-clear && printf "Version: 0.2"
-sleep 2
 # Define the Alpine Linux version we are going to be using.
 ALPINE_VERSION="3.20"
 ALPINE_FULL_VERSION="3.20.1"
 APK_TOOLS_VERSION="2.14.4-r2" # Make sure to update this too when updating Alpine Linux.
 PROOT_VERSION="5.4.0" # Some releases do not have static builds attached.
+
+clear && printf "Version: 0.3"
+printf "Alpine version: $ALPINE_VERSION"
+sleep 2
 
 # Detect the machine architecture.
 ARCH=$(uname -m)
