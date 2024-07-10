@@ -14,7 +14,6 @@ ALPINE_FULL_VERSION="3.20.1"
 APK_TOOLS_VERSION="2.14.4-r2" # Make sure to update this too when updating Alpine Linux.
 PROOT_VERSION="5.3.0" # Some releases do not have static builds attached.
 
-
 # Detect the machine architecture.
 ARCH=$(uname -m)
 
@@ -57,6 +56,25 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     chmod 755 $ROOTFS_DIR/usr/local/bin/proot $ROOTFS_DIR/usr/local/bin/gotty
 fi
 
+# Install Docker
+if [ ! -e $ROOTFS_DIR/.installed ]; then
+  $ROOTFS_DIR/usr/local/bin/proot \
+  --rootfs="${ROOTFS_DIR}" \
+  --link2symlink \
+  --kill-on-exit \
+  --root-id \
+  --cwd=/root \
+  --bind=/proc \
+  --bind=/dev \
+  --bind=/sys \
+  --bind=/tmp \
+  /bin/sh -c "apk update && \
+              apk add docker && \
+              rc-update add docker default && \
+              addgroup -S docker && \
+              adduser -S -G docker user"
+fi
+
 # Clean-up after installation complete & finish up.
 if [ ! -e $ROOTFS_DIR/.installed ]; then
     # Add DNS Resolver nameservers to resolv.conf.
@@ -86,12 +104,12 @@ clear && cat << EOF
  ██╔══██║██╔══██║██╔══██╗██╔══██╗██║   ██║██╔══██╗
  ██║  ██║██║  ██║██║  ██║██████╔╝╚██████╔╝██║  ██║
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
- 
+
  Welcome to Alpine Linux minirootfs!
  This is a lightweight and security-oriented Linux distribution that is perfect for running high-performance applications.
- 
+
  Here are some useful commands to get you started:
- 
+
     apk add [package] : install a package
     apk del [package] : remove a package
     apk update : update the package index
@@ -99,10 +117,11 @@ clear && cat << EOF
     apk search [keyword] : search for a package
     apk info [package] : show information about a package
     gotty -p [server-port] -w ash : share your terminal
- 
+    docker --version : check docker version
+
  If you run into any issues make sure to report them on GitHub!
  https://github.com/RealTriassic/Harbor
- 
+
 EOF
 
 ###########################
