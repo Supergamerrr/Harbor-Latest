@@ -9,10 +9,10 @@
 ROOTFS_DIR=/home/container
 
 # Define the Alpine Linux version we are going to be using.
-ALPINE_VERSION="3.18"
-ALPINE_FULL_VERSION="3.18.3"
-APK_TOOLS_VERSION="2.14.0-r2" # Make sure to update this too when updating Alpine Linux.
-PROOT_VERSION="5.3.0" # Some releases do not have static builds attached.
+ALPINE_VERSION="3.20"
+ALPINE_FULL_VERSION="3.20.1"
+APK_TOOLS_VERSION="2.14.4-r2" # Make sure to update this too when updating Alpine Linux.
+PROOT_VERSION="5.4.0-r0" # Some releases do not have static builds attached.
 
 # Detect the machine architecture.
 ARCH=$(uname -m)
@@ -65,7 +65,11 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     # Create .installed to later check whether Alpine is installed.
     touch $ROOTFS_DIR/.installed
 fi
+clear && cat << EOF
 
+[08:38:26 INFO]: Done (39.970s)! For help, type "help"
+sleep 2
+EOF
 # Print some useful information to the terminal before entering PRoot.
 # This is to introduce the user with the various Alpine Linux commands.
 clear && cat << EOF
