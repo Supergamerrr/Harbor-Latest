@@ -66,6 +66,7 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     rm -rf /tmp/apk-tools-static.apk /tmp/rootfs.tar.gz /tmp/sbin
     # Install QEMU
     ./sbin/apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk
+    sleep 2
     # Create .installed to later check whether Alpine is installed.
     touch $ROOTFS_DIR/.installed
 fi
