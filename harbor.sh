@@ -54,25 +54,13 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     /tmp/sbin/apk.static -X "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/main/" -U --allow-untrusted --root $ROOTFS_DIR add alpine-base apk-tools
     # Make PRoot and GoTTY executable.
     chmod 755 $ROOTFS_DIR/usr/local/bin/proot $ROOTFS_DIR/usr/local/bin/gotty
-fi
 
-# Install Docker
-if [ ! -e $ROOTFS_DIR/.installed ]; then
-  $ROOTFS_DIR/usr/local/bin/proot \
-  --rootfs="${ROOTFS_DIR}" \
-  --link2symlink \
-  --kill-on-exit \
-  --root-id \
-  --cwd=/root \
-  --bind=/proc \
-  --bind=/dev \
-  --bind=/sys \
-  --bind=/tmp \
-  /bin/sh -c "apk update && \
-              apk add docker && \
-              rc-update add docker default && \
-              addgroup -S docker && \
-              adduser -S -G docker user"
+    # Install Docker dependencies and Docker itself
+    $ROOTFS_DIR/usr/bin/apk add --no-cache \
+        docker="$DOCKER_VERSION-r0" \
+        docker-cli="$DOCKER_VERSION-r0" \
+        docker-compose plugin.docker.compose \
+        iptables  # Needed for Docker networking
 fi
 
 # Clean-up after installation complete & finish up.
@@ -83,7 +71,19 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     rm -rf /tmp/apk-tools-static.apk /tmp/rootfs.tar.gz /tmp/sbin
     # Create .installed to later check whether Alpine is installed.
     touch $ROOTFS_DIR/.installed
-fi
+
+    # Add the current user to the docker group inside the chroot
+    $ROOTFS_DIR/usr/local/bin/proot \
+        --rootfs="${ROOTFS_DIR}" \
+        --link2symlink \
+        --kill-on-exit \
+        --root-id \
+        --cwd=/root \
+        --bind=/proc \
+        --bind=/dev \
+        --bind=/sys \
+        --bind=/tmp \
+        /bin/sh -c "addgroup -S docker && adduser -S -G docker $(id -un) && rc-update add docker boot"
 clear && printf "Version: 0.6"
 printf "Alpine version: $ALPINE_VERSION"
 printf "Alpine version: $PROOT_VERSION"
@@ -140,4 +140,5 @@ $ROOTFS_DIR/usr/local/bin/proot \
 --bind=/dev \
 --bind=/sys \
 --bind=/tmp \
+--bind=/var/run \
 /bin/sh
