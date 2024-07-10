@@ -85,6 +85,7 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
         --bind=/sys \
         --bind=/tmp \
         /bin/sh -c "addgroup -S docker && adduser -S -G docker $(id -un) && rc-update add docker boot"
+fi
 clear && printf "Version: 0.6"
 printf "Alpine version: $ALPINE_VERSION"
 printf "Alpine version: $PROOT_VERSION"
