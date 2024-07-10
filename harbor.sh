@@ -11,9 +11,9 @@ ROOTFS_DIR=/home/container
 # Define the Alpine Linux version we are going to be using.
 ALPINE_VERSION="3.20"
 ALPINE_FULL_VERSION="3.20.1"
-DOCKER_VERSION="23.0.6"
 APK_TOOLS_VERSION="2.14.4-r2" # Make sure to update this too when updating Alpine Linux.
 PROOT_VERSION="5.3.0" # Some releases do not have static builds attached.
+
 
 # Detect the machine architecture.
 ARCH=$(uname -m)
@@ -46,22 +46,16 @@ fi
 if [ ! -e $ROOTFS_DIR/.installed ]; then
     # Download the packages from their sources.
     curl -Lo /tmp/apk-tools-static.apk "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/main/${ARCH}/apk-tools-static-${APK_TOOLS_VERSION}.apk"
-    curl -Lo /tmp/gotty.tar.gz "https://github.com/sorenisanerd/gotty/releases/download/v1.5.0/gotty_v1.5.0_linux_${ARCH_ALT}.tar.gz"
+    #curl -Lo /tmp/gotty.tar.gz "https://github.com/sorenisanerd/gotty/releases/download/v1.5.0/gotty_v1.5.0_linux_${ARCH_ALT}.tar.gz"
     curl -Lo $ROOTFS_DIR/usr/local/bin/proot "https://github.com/proot-me/proot/releases/download/v${PROOT_VERSION}/proot-v${PROOT_VERSION}-${ARCH}-static"
     # Extract everything that needs to be extracted.
     tar -xzf /tmp/apk-tools-static.apk -C /tmp/
-    tar -xzf /tmp/gotty.tar.gz -C $ROOTFS_DIR/usr/local/bin
+    #tar -xzf /tmp/gotty.tar.gz -C $ROOTFS_DIR/usr/local/bin
     # Install base system packages using the static APK-Tools.
     /tmp/sbin/apk.static -X "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/main/" -U --allow-untrusted --root $ROOTFS_DIR add alpine-base apk-tools
     # Make PRoot and GoTTY executable.
-    chmod 755 $ROOTFS_DIR/usr/local/bin/proot $ROOTFS_DIR/usr/local/bin/gotty
-
-    # Install Docker dependencies and Docker itself
-    $ROOTFS_DIR/usr/bin/apk add --no-cache \
-        docker="$DOCKER_VERSION-r0" \
-        docker-cli="$DOCKER_VERSION-r0" \
-        docker-compose plugin.docker.compose \
-        iptables  # Needed for Docker networking
+    #chmod 755 $ROOTFS_DIR/usr/local/bin/proot $ROOTFS_DIR/usr/local/bin/gotty
+    chmod 755 $ROOTFS_DIR/usr/local/bin/proot
 fi
 
 # Clean-up after installation complete & finish up.
@@ -70,27 +64,11 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     printf "nameserver 1.1.1.1\nnameserver 1.0.0.1" > ${ROOTFS_DIR}/etc/resolv.conf
     # Wipe the files we downloaded into /tmp previously.
     rm -rf /tmp/apk-tools-static.apk /tmp/rootfs.tar.gz /tmp/sbin
+    # Install QEMU
+    ./sbin/apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk
     # Create .installed to later check whether Alpine is installed.
     touch $ROOTFS_DIR/.installed
-
-    # Add the current user to the docker group inside the chroot
-    $ROOTFS_DIR/usr/local/bin/proot \
-        --rootfs="${ROOTFS_DIR}" \
-        --link2symlink \
-        --kill-on-exit \
-        --root-id \
-        --cwd=/root \
-        --bind=/proc \
-        --bind=/dev \
-        --bind=/sys \
-        --bind=/tmp \
-        /bin/sh -c "addgroup -S docker && adduser -S -G docker $(id -un) && rc-update add docker boot"
 fi
-clear && printf "Version: 0.6"
-printf "Alpine version: $ALPINE_VERSION"
-printf "Alpine version: $PROOT_VERSION"
-sleep 2
-
 clear && cat << EOF
 
 [08:38:26 INFO]: Done (39.970s)! For help, type "help"
@@ -106,12 +84,12 @@ clear && cat << EOF
  ██╔══██║██╔══██║██╔══██╗██╔══██╗██║   ██║██╔══██╗
  ██║  ██║██║  ██║██║  ██║██████╔╝╚██████╔╝██║  ██║
  ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
-
+ 
  Welcome to Alpine Linux minirootfs!
  This is a lightweight and security-oriented Linux distribution that is perfect for running high-performance applications.
-
+ 
  Here are some useful commands to get you started:
-
+ 
     apk add [package] : install a package
     apk del [package] : remove a package
     apk update : update the package index
@@ -119,11 +97,10 @@ clear && cat << EOF
     apk search [keyword] : search for a package
     apk info [package] : show information about a package
     gotty -p [server-port] -w ash : share your terminal
-    docker --version : check docker version
-
+ 
  If you run into any issues make sure to report them on GitHub!
  https://github.com/RealTriassic/Harbor
-
+ 
 EOF
 
 ###########################
