@@ -8,6 +8,8 @@
 # We can only write in /home/container and /tmp in the container.
 ROOTFS_DIR=/home/container
 
+printf "Version: 0.1"
+
 # Define the Alpine Linux version we are going to be using.
 ALPINE_VERSION="3.20"
 ALPINE_FULL_VERSION="3.20.1"
