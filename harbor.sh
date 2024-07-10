@@ -12,7 +12,7 @@ ROOTFS_DIR=/home/container
 ALPINE_VERSION="3.20"
 ALPINE_FULL_VERSION="3.20.1"
 APK_TOOLS_VERSION="2.14.4-r2" # Make sure to update this too when updating Alpine Linux.
-PROOT_VERSION="5.4.0-r0" # Some releases do not have static builds attached.
+PROOT_VERSION="5.4.0" # Some releases do not have static builds attached.
 
 # Detect the machine architecture.
 ARCH=$(uname -m)
