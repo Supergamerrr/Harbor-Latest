@@ -8,8 +8,8 @@
 # We can only write in /home/container and /tmp in the container.
 ROOTFS_DIR=/home/container
 
-printf "Version: 0.1"
-
+clear && printf "Version: 0.2"
+sleep 2
 # Define the Alpine Linux version we are going to be using.
 ALPINE_VERSION="3.20"
 ALPINE_FULL_VERSION="3.20.1"
@@ -70,8 +70,8 @@ fi
 clear && cat << EOF
 
 [08:38:26 INFO]: Done (39.970s)! For help, type "help"
-sleep 2
 EOF
+sleep 2
 # Print some useful information to the terminal before entering PRoot.
 # This is to introduce the user with the various Alpine Linux commands.
 clear && cat << EOF
