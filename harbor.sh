@@ -103,7 +103,7 @@ clear && cat << EOF
  
 EOF
 clear && cat << EOF
-Version: 0.1
+Version: 0.2
 EOF
 ###########################
 # Start PRoot environment #
@@ -111,7 +111,20 @@ EOF
 
 # This command starts PRoot and binds several important directories
 # from the host file system to our special root file system.
-apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk
+
+$ROOTFS_DIR/usr/local/bin/proot \
+--rootfs="${ROOTFS_DIR}" \
+--link2symlink \
+--kill-on-exit \
+--root-id \
+--cwd=/root \
+--bind=/proc \
+--bind=/dev \
+--bind=/sys \
+--bind=/tmp \
+--bind=/var/run \
+apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk && qemu-system-x86_64 --version
+
 $ROOTFS_DIR/usr/local/bin/proot \
 --rootfs="${ROOTFS_DIR}" \
 --link2symlink \
