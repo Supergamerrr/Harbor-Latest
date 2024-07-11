@@ -11,7 +11,7 @@ clear && cat << EOF
 Version: 0.8
 EOF
 sleep 1
-if [ ! -f $ROOTFS_DIR/.installed ]; then
+if ! [ -f $ROOTFS_DIR/.installed ]; then
 echo "--- INSTALLED"
 chmod +x start.sh
 $ROOTFS_DIR/usr/local/bin/proot \
