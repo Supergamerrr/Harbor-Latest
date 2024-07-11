@@ -8,7 +8,7 @@
 # We can only write in /home/container and /tmp in the container.
 ROOTFS_DIR=/home/container
 clear && cat << EOF
-Version: 0.8
+Version: 0.9
 EOF
 sleep 1
 if ! [ -f $ROOTFS_DIR/.installed ]; then
