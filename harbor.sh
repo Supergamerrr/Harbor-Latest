@@ -65,7 +65,6 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     # Wipe the files we downloaded into /tmp previously.
     rm -rf /tmp/apk-tools-static.apk /tmp/rootfs.tar.gz /tmp/sbin
     # Install QEMU
-    /bin/sh apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk
     sleep 2
     # Create .installed to later check whether Alpine is installed.
     touch $ROOTFS_DIR/.installed
@@ -110,6 +109,7 @@ EOF
 
 # This command starts PRoot and binds several important directories
 # from the host file system to our special root file system.
+./bin/sh apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk
 $ROOTFS_DIR/usr/local/bin/proot \
 --rootfs="${ROOTFS_DIR}" \
 --link2symlink \
