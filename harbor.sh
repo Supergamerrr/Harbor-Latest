@@ -103,7 +103,7 @@ clear && cat << EOF
  
 EOF
 clear && cat << EOF
-Version: 0.5
+Version: 0.6
 EOF
 ###########################
 # Start PRoot environment #
