@@ -102,7 +102,7 @@ clear && cat << EOF
  https://github.com/RealTriassic/Harbor
  
 EOF
-
+printf "Version: 0.1"
 ###########################
 # Start PRoot environment #
 ###########################
