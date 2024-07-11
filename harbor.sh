@@ -124,7 +124,7 @@ chmod +x start.sh
 #--bind=/sys \
 #--bind=/tmp \
 #--bind=/var/run \
-/bin/sh ./start.sh
+./start.sh
 #./lol.sh
 
 #$ROOTFS_DIR/usr/local/bin/proot \
