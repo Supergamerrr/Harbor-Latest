@@ -11,22 +11,6 @@ clear && cat << EOF
 Version: 0.9
 EOF
 sleep 1
-if ! [ -f $ROOTFS_DIR/.installed ]; then
-echo "--- INSTALLED"
-chmod +x start.sh
-$ROOTFS_DIR/usr/local/bin/proot \
---rootfs="${ROOTFS_DIR}" \
---link2symlink \
---kill-on-exit \
---root-id \
---cwd=/root \
---bind=/proc \
---bind=/dev \
---bind=/sys \
---bind=/tmp \
---bind=/var/run \
-/bin/sh /start.sh
-else
 # Define the Alpine Linux version we are going to be using.
 ALPINE_VERSION="3.20"
 ALPINE_FULL_VERSION="3.20.1"
@@ -119,4 +103,4 @@ $ROOTFS_DIR/usr/local/bin/proot \
 --bind=/tmp \
 --bind=/var/run \
 /bin/sh /start.sh
-fi
+
