@@ -7,7 +7,26 @@
 # Define the root directory to /home/container.
 # We can only write in /home/container and /tmp in the container.
 ROOTFS_DIR=/home/container
-
+clear && cat << EOF
+Version: 0.8
+EOF
+sleep 1
+if [ ! -e $ROOTFS_DIR/.installed ]; then
+echo "--- INSTALLED"
+chmod +x start.sh
+$ROOTFS_DIR/usr/local/bin/proot \
+--rootfs="${ROOTFS_DIR}" \
+--link2symlink \
+--kill-on-exit \
+--root-id \
+--cwd=/root \
+--bind=/proc \
+--bind=/dev \
+--bind=/sys \
+--bind=/tmp \
+--bind=/var/run \
+/bin/sh /start.sh
+else
 # Define the Alpine Linux version we are going to be using.
 ALPINE_VERSION="3.20"
 ALPINE_FULL_VERSION="3.20.1"
@@ -47,6 +66,9 @@ if [ ! -e $ROOTFS_DIR/.installed ]; then
     # Download the packages from their sources.
     curl -Lo /tmp/apk-tools-static.apk "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/main/${ARCH}/apk-tools-static-${APK_TOOLS_VERSION}.apk"
     #curl -Lo /tmp/gotty.tar.gz "https://github.com/sorenisanerd/gotty/releases/download/v1.5.0/gotty_v1.5.0_linux_${ARCH_ALT}.tar.gz"
+
+    curl -Lo $ROOTFS_DIR/start.sh "https://raw.githubusercontent.com/Supergamerrr/Harbor-Latest/main/start.sh"
+
     curl -Lo $ROOTFS_DIR/usr/local/bin/proot "https://github.com/proot-me/proot/releases/download/v${PROOT_VERSION}/proot-v${PROOT_VERSION}-${ARCH}-static"
     # Extract everything that needs to be extracted.
     tar -xzf /tmp/apk-tools-static.apk -C /tmp/
@@ -76,35 +98,6 @@ EOF
 sleep 1
 # Print some useful information to the terminal before entering PRoot.
 # This is to introduce the user with the various Alpine Linux commands.
-clear && cat << EOF
-
- ██╗  ██╗ █████╗ ██████╗ ██████╗  ██████╗ ██████╗ 
- ██║  ██║██╔══██╗██╔══██╗██╔══██╗██╔═══██╗██╔══██╗
- ███████║███████║██████╔╝██████╔╝██║   ██║██████╔╝
- ██╔══██║██╔══██║██╔══██╗██╔══██╗██║   ██║██╔══██╗
- ██║  ██║██║  ██║██║  ██║██████╔╝╚██████╔╝██║  ██║
- ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
- 
- Welcome to Alpine Linux minirootfs!
- This is a lightweight and security-oriented Linux distribution that is perfect for running high-performance applications.
- 
- Here are some useful commands to get you started:
- 
-    apk add [package] : install a package
-    apk del [package] : remove a package
-    apk update : update the package index
-    apk upgrade : upgrade installed packages
-    apk search [keyword] : search for a package
-    apk info [package] : show information about a package
-    gotty -p [server-port] -w ash : share your terminal
- 
- If you run into any issues make sure to report them on GitHub!
- https://github.com/RealTriassic/Harbor
- 
-EOF
-clear && cat << EOF
-Version: 0.8
-EOF
 ###########################
 # Start PRoot environment #
 ###########################
@@ -112,19 +105,6 @@ EOF
 # This command starts PRoot and binds several important directories
 # from the host file system to our special root file system.
 
-chmod +x start.sh
-$ROOTFS_DIR/usr/local/bin/proot \
---rootfs="${ROOTFS_DIR}" \
---link2symlink \
---kill-on-exit \
---root-id \
---cwd=/root \
---bind=/proc \
---bind=/dev \
---bind=/sys \
---bind=/tmp \
---bind=/var/run \
-/bin/sh /start.sh
 #./lol.sh
 
 $ROOTFS_DIR/usr/local/bin/proot \
@@ -138,4 +118,5 @@ $ROOTFS_DIR/usr/local/bin/proot \
 --bind=/sys \
 --bind=/tmp \
 --bind=/var/run \
-/bin/sh
+/bin/sh /start.sh
+fi
