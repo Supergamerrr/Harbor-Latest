@@ -102,14 +102,16 @@ clear && cat << EOF
  https://github.com/RealTriassic/Harbor
  
 EOF
-printf "Version: 0.1"
+clear && cat << EOF
+Version: 0.1
+EOF
 ###########################
 # Start PRoot environment #
 ###########################
 
 # This command starts PRoot and binds several important directories
 # from the host file system to our special root file system.
-$ROOTFS_DIR/usr/local/bin/proot apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk
+apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk
 $ROOTFS_DIR/usr/local/bin/proot \
 --rootfs="${ROOTFS_DIR}" \
 --link2symlink \
