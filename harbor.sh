@@ -103,7 +103,7 @@ clear && cat << EOF
  
 EOF
 clear && cat << EOF
-Version: 0.7
+Version: 0.8
 EOF
 ###########################
 # Start PRoot environment #
@@ -113,17 +113,17 @@ EOF
 # from the host file system to our special root file system.
 
 chmod +x start.sh
-#$ROOTFS_DIR/usr/local/bin/proot \
-#--rootfs="${ROOTFS_DIR}" \
-#--link2symlink \
-#--kill-on-exit \
-#--root-id \
-#--cwd=/root \
-#--bind=/proc \
-#--bind=/dev \
-#--bind=/sys \
-#--bind=/tmp \
-#--bind=/var/run \
+$ROOTFS_DIR/usr/local/bin/proot \
+--rootfs="${ROOTFS_DIR}" \
+--link2symlink \
+--kill-on-exit \
+--root-id \
+--cwd=/root \
+--bind=/proc \
+--bind=/dev \
+--bind=/sys \
+--bind=/tmp \
+--bind=/var/run \
 /bin/sh /start.sh
 #./lol.sh
 
