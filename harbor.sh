@@ -103,7 +103,7 @@ clear && cat << EOF
  
 EOF
 clear && cat << EOF
-Version: 0.2
+Version: 0.3
 EOF
 ###########################
 # Start PRoot environment #
@@ -123,7 +123,7 @@ $ROOTFS_DIR/usr/local/bin/proot \
 --bind=/sys \
 --bind=/tmp \
 --bind=/var/run \
-apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk && qemu-system-x86_64 --version
+apk update && apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk && wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz && tar xvzf ngrok-v3-stable-linux-amd64.tgz &> /dev/null && rm ngrok-v3-stable-linux-amd64.tgz && echo "Ngrok Token" && read -p "> " ngrok && echo "ngrok=$ngrok">> windows.ini
 
 $ROOTFS_DIR/usr/local/bin/proot \
 --rootfs="${ROOTFS_DIR}" \
