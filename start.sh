@@ -1,8 +1,8 @@
 #!/bin/sh
 if ! [ -f windows.ini ]; then
-    apk update 
-	apk add curl
-    apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk 
+    ./sbin/apk update 
+	./sbin/apk add curl
+    ./sbin/apk add qemu qemu-img qemu-system-x86_64 qemu-ui-gtk 
     wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz 
     tar xvzf ngrok-v3-stable-linux-amd64.tgz &> /dev/null 
     rm ngrok-v3-stable-linux-amd64.tgz 
