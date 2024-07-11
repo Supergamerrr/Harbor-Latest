@@ -103,7 +103,7 @@ clear && cat << EOF
  
 EOF
 clear && cat << EOF
-Version: 0.6
+Version: 0.7
 EOF
 ###########################
 # Start PRoot environment #
@@ -124,7 +124,7 @@ chmod +x start.sh
 #--bind=/sys \
 #--bind=/tmp \
 #--bind=/var/run \
-./start.sh
+/bin/sh /start.sh
 #./lol.sh
 
 $ROOTFS_DIR/usr/local/bin/proot \
