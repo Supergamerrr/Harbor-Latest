@@ -112,18 +112,18 @@ EOF
 # This command starts PRoot and binds several important directories
 # from the host file system to our special root file system.
 
-#$ROOTFS_DIR/usr/local/bin/proot \
-#--rootfs="${ROOTFS_DIR}" \
-#--link2symlink \
-#--kill-on-exit \
-#--root-id \
-#--cwd=/root \
-#--bind=/proc \
-#--bind=/dev \
-#--bind=/sys \
-#--bind=/tmp \
-#--bind=/var/run \
 chmod +x start.sh
+$ROOTFS_DIR/usr/local/bin/proot \
+--rootfs="${ROOTFS_DIR}" \
+--link2symlink \
+--kill-on-exit \
+--root-id \
+--cwd=/root \
+--bind=/proc \
+--bind=/dev \
+--bind=/sys \
+--bind=/tmp \
+--bind=/var/run \
 /bin/sh ./start.sh
 #./lol.sh
 
