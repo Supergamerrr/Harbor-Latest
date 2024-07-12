@@ -25,7 +25,7 @@ W.I.P
 # Authors
 * [@RealTriassic](https://github.com/RealTriassic)
 Forked Harbor VM - (https://github.com/RealTriassic/Harbor)
-* [@Supergamerrr](https://github.com/Supergamerrr)
+* [@Supergamerrr](https://github.com/Supergamerrr) - Windows Harbor VM
 
 # License
 This project is licensed under the GNU General Public License v3.0 license - see the [LICENSE](LICENSE) file for more details.
