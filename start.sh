@@ -8,7 +8,7 @@ if ! [ -f windows.ini ]; then
     rm ngrok-v3-stable-linux-amd64.tgz 
 	echo "windows.ini created"
 	echo "os=win7">> windows.ini
-	echo "ram=4G">> windows.ini
+	echo "ram=2048M">> windows.ini
 	echo "threads=1">> windows.ini
 	echo "cores=2">> windows.ini
 	echo "ngrok=">> windows.ini
