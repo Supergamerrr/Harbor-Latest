@@ -13,6 +13,7 @@ Run Windows 7 on Minecraft hosting!
 # Roadmap
 - [ ] VNC
 - [ ] Don't use ngrok
+- [ ] Auto-update QEMU
 - [ ] Windows XP, 8, 8.1, 10, 11, Tiny7, Tiny10, Tiny11
 &nbsp;
 
