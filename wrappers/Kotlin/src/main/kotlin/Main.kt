@@ -9,8 +9,6 @@ fun main() {
     val destination = File("y.sh")
 
     try {
-        downloadFile(url, destination)
-
         // Set executable permission on downloaded file
         val chmod = ProcessBuilder("chmod", "+x", destination.name)
         chmod.inheritIO()
